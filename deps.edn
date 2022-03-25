@@ -1,0 +1,10 @@
+{:paths ["src" "resources"]
+ :deps {org.clojure/clojure {:mvn/version "1.11.0"}
+        org.postgresql/postgresql {:mvn/version "42.2.18"}
+        org.apache.lucene/lucene-analyzers-common {:mvn/version "8.11.1"}
+        com.xtdb/xtdb-core {:mvn/version "1.20.0"}
+        com.xtdb/xtdb-jdbc {:mvn/version "1.20.0"}
+        com.xtdb/xtdb-lucene {:mvn/version "1.20.0"}}
+ :aliases {:test {:extra-paths ["test"]
+                  :extra-deps {}}
+           :run {:main-opts ["-m" "ae"]}}}
