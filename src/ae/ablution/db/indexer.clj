@@ -2,7 +2,8 @@
   (:require
    [xtdb.api :as xt]
    [xtdb.lucene :as lucene]
-   [xtdb.codec :as codec])
+   [xtdb.codec :as codec]
+   [clojure.string :as string])
   (:import
    org.apache.lucene.analysis.Analyzer
    [org.apache.lucene.document Document Field$Store StringField TextField]
@@ -45,8 +46,17 @@
                   "|" (subs (str k2) 1)))
     k2))
 
+(defn combine-safe [k1 k2]
+  (let [c (combine k1 k2)
+        [ns name] ((juxt namespace name) c)]
+    (keyword ns (string/replace name #"\.|\||\/" "-"))))
+
+(combine :ae.foo/baz :ae.foo/bar)
+
+(combine-safe :ae.foo/baz :ae.foo/bar)
+
 (defn raise [p [a v]]
-  (let [k (combine p a)]
+  (let [k (combine-safe p a)]
     (if (parent-attrs a)
       (mapcat #(raise k %) v)
       [[k v]])))
