@@ -28,33 +28,21 @@
      (xt/submit-tx db/node)
      (xt/await-tx db/node))
 
-(db/q '{:find [e v a s]
-        :where [[(wildcard-text-search "eff" {:lucene-store-k :eav})
-                 [[e v a s]]]]})
+(db/find-by-field "eff")
 
-(db/q '{:find [e v a s]
-        :where [[(wildcard-text-search "dee" {:lucene-store-k :eav})
-                 [[e v a s]]]]})
+(db/find-by-field "dee")
 
-(db/q '{:find [e v a s]
-        :where [[(wildcard-text-search "Frank" {:lucene-store-k :eav})
-                 [[e v a s]]]]})
+(db/find-by-field "Frank")
 
-(db/q '{:find [e v a s]
-        :where [[(wildcard-text-search "Street" {:lucene-store-k :eav})
-                 [[e v a s]]]]})
+(db/find-by-field "Street")
 
 (def gamma
   {:xt/id :gamma
    :freude "schoene"
-   :gotterfunken {:tochter "als Elysium"}})
+   :gotterfunken {:tochter-als "Elysium"}})
 
 (xt/await-tx db/node (xt/submit-tx db/node [[::xt/put gamma]]))
 
-(db/q '{:find [e v a s]
-        :where [[(wildcard-text-search "schoene" {:lucene-store-k :eav})
-                 [[e v a s]]]]})
+(db/find-by-field "schoene")
 
-(db/q '{:find [e v a s]
-        :where [[(wildcard-text-search "Elysium" {:lucene-store-k :eav})
-                 [[e v a s]]]]})
+(db/find-by-field "Elysium")

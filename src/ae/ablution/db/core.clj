@@ -21,21 +21,14 @@
   ([query] (xt/q (xt/db node) query))
   ([query in] (xt/q (xt/db node) query in)))
 
-#_(defn entity [id]
-    (xt/entity (xt/db node) id))
+(defn entity [id]
+  (xt/entity (xt/db node) id))
 
-#_(defn find-entity
-    ([term]
-     (q '{:find [e v a s]
-          :in [term]
-          :where [[(wildcard-text-search term {:lucene-store-k :eav}) [[e v a s]]]]}
-        term))
-    ([term type]
-     (q '{:find [e v a s]
-          :in [[term type]]
-          :where [[e :ae.ablution.entity/type type]
-                  [(wildcard-text-search term {:lucene-store-k :eav}) [[e v a s]]]]}
-        [term type])))
+(defn find-by-field [term]
+  (q '{:find [e v a s]
+       :in [term]
+       :where [[(wildcard-text-search term {:lucene-store-k :eav}) [[e v a s]]]]}
+     term))
 
 #_(defn put! [doc]
     (xt/submit-tx node [[::xt/put doc]]))
